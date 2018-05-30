@@ -1,0 +1,12 @@
+include "Vector3.fbs";
+
+namespace Neuralyzer.Transport.FlatBuffers;
+
+table TargetPlacement
+{
+  id:int;
+  name:string;
+  position:Vector3;
+}
+
+root_type TargetPlacement;

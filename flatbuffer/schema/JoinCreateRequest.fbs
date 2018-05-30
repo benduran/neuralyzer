@@ -1,0 +1,11 @@
+namespace Neuralyzer.Transport.FlatBuffers;
+
+table JoinCreateRequest
+{
+  room:string;
+  name:string;
+  userId:string;
+  deviceType:string;
+}
+
+root_type JoinCreateRequest;

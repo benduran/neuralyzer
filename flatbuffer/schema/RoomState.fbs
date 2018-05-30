@@ -1,0 +1,15 @@
+include "Annotation.fbs";
+include "RoomObject.fbs";
+include "TargetPlacement.fbs";
+
+namespace Neuralyzer.Transport.FlatBuffers;
+
+table RoomState
+{
+  siteDrive:string;
+  poi:TargetPlacement;
+  annotations:[Annotation];
+  objects:[RoomObject];
+}
+
+root_type RoomState;

@@ -1,0 +1,8 @@
+namespace Neuralyzer.Transport.FlatBuffers;
+
+struct Vector3
+{
+  x:float;
+  y:float;
+  z:float;
+}

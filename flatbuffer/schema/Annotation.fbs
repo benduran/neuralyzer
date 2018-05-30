@@ -1,0 +1,11 @@
+include "Vector3.fbs";
+
+namespace Neuralyzer.Transport.FlatBuffers;
+
+table Annotation
+{
+  userId:string;
+  lineId:string;
+  positions:[Vector3];
+}
+root_type Annotation;

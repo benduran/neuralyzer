@@ -1,0 +1,32 @@
+extends: airbnb-base
+env:
+  node: true
+  browser: true
+parser: babel-eslint
+plugins:
+  - html
+rules:
+  import/no-unresolved:
+    - off
+  class-methods-use-this:
+    - off
+  max-len:
+    - error
+    - 150
+  no-underscore-dangle:
+    - off
+  object-curly-newline:
+    - off
+  no-param-reassign:
+    - off
+  linebreak-style:
+    - off
+  no-restricted-syntax:
+    - off
+  no-plusplus:
+    - off
+  function-paren-newline:
+    - error
+    - consistent
+  import/no-extraneous-dependencies:
+    - off

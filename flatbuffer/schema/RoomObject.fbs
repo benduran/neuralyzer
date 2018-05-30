@@ -1,0 +1,17 @@
+include "Vector3.fbs";
+
+namespace Neuralyzer.Transport.FlatBuffers;
+
+table RoomObject
+{
+  id:int;
+  disposable:bool = true;
+  owner:string;
+  position:Vector3;
+  lookDirection:Vector3;
+  prefab:string;
+  isHidden:bool;
+  name:string;
+}
+
+root_type RoomObject;

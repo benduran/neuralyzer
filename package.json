@@ -1,0 +1,62 @@
+{
+  "name": "neuralyzer",
+  "version": "1.1.0",
+  "description": "Node.js, Websocket-based simple state synchronization server. Useful for synchronizing simple games and collaborative visualizations.",
+  "main": "main.js",
+  "scripts": {
+    "server:start:exp": "node main serve -c ./config/config.exp.js",
+    "test:single": "node main test",
+    "test:multi": "node main testmulti",
+    "test:all": "node main testall",
+    "cross-env": "cross-env",
+    "zip:develop": "cross-env NODE_ENV=develop node main zip",
+    "zip:production": "cross-env NODE_ENV=production node main zip"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.jpl.nasa.gov/OnSight/Neuralyzer"
+  },
+  "keywords": [
+    "Socket",
+    "State",
+    "Sync",
+    "Unity",
+    "Games",
+    "Web",
+    "JavaScript"
+  ],
+  "author": "Benjamin Duran <stratodyne@gmail.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "aws-sdk": "^2.239.1",
+    "body-parser": "^1.18.3",
+    "clone": "^2.1.1",
+    "commander": "^2.15.1",
+    "compression": "^1.7.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "deepmerge": "^2.1.0",
+    "express": "^4.16.3",
+    "flatbuffers": "^1.9.0",
+    "redis": "^2.8.0",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.2.0",
+    "uuid": "^3.2.1",
+    "winston": "^2.4.2",
+    "ws": "^5.1.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "chai": "^4.1.2",
+    "cross-env": "^5.1.5",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-html": "^4.0.3",
+    "eslint-plugin-import": "^2.11.0",
+    "glob": "^7.1.2",
+    "md5": "^2.2.1",
+    "mocha": "^5.1.1",
+    "node-fetch": "^2.1.2",
+    "yazl": "^2.4.3"
+  }
+}

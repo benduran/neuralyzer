@@ -1,0 +1,17 @@
+// This is the single entry-point for all of the schema includes. File may not be renamed, or flatbuffer builds will fail
+include "StringData.fbs";
+include "StateUpdate.fbs";
+include "JoinCreateRequest.fbs";
+
+namespace Neuralyzer.Transport.FlatBuffers;
+
+enum msgType:byte { RoomStateUpdate, SocketReady, SocketRoomJoined, RoomCreated, RoomUserOnjoined, RoomUserOnLeft, SocketCreateOrJoinRoom, SocketBlip, SocketPulse }
+
+union msg {StateUpdate, StringData, JoinCreateRequest}
+
+table ServerMessage {
+ type:msgType;
+ data:msg;
+}
+
+root_type ServerMessage;

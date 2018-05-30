@@ -1,0 +1,9 @@
+namespace Neuralyzer.Transport.FlatBuffers;
+
+table Participant
+{
+  id:int;
+  name:string;
+}
+
+root_type Participant;

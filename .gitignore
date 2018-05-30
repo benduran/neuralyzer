@@ -1,0 +1,6 @@
+/node_modules
+/UnityClient/Neuralyzer/Library
+/UnityClient/Neuralyzer/Temp
+/Neuralyer.archive.zip
+*.zip
+/.idea
