@@ -26,7 +26,7 @@
     "JavaScript"
   ],
   "author": "Benjamin Duran <stratodyne@gmail.com>",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "dependencies": {
     "aws-sdk": "^2.239.1",
     "body-parser": "^1.18.3",

@@ -1,6 +1,8 @@
 # Neuralyzer
 Node.js, Websocket-based simple state synchronization server. Useful for synchronizing simple games and collaborative visualizations.
 
+### Documentation updates are in-progress and are coming soon!
+
 ## Setup and Installation
 1. Make sure you have [Nodejs](https://nodejs.org/en/), version 8 or greater installed.
 2. `npm install`
@@ -9,3 +11,6 @@ Node.js, Websocket-based simple state synchronization server. Useful for synchro
 ## Commands
 - `npm run server:start` - Starts Neuralyzer and listens on port 80
 - `npm run test` - Runs unit tests that test connectivity and room state updates
+
+## License
+[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
