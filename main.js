@@ -175,6 +175,7 @@ function performAllTests(options) {
 
 async function performFlatBufferBuild(options) {
   try {
+    if (!/win32/.test(process.platform)) throw new Error('Unable to compile flatbuffer schema on a non-Windows platform. Please compile and provide schema manually.');
     const { lang = 'js' } = options;
     if (!lang) throw new Error('Cannot compile flatbuffer schema because no language was provided.');
     const globAsync = promisify(require('glob'));

@@ -1,12 +1,12 @@
 
 const clone = require('clone');
 const { Builder, ByteBuffer } = require('flatbuffers').flatbuffers;
-const { Transport } = require('../flatbuffer/RoomState_generated').Neuralyzer;
 
+const importSchema = require('../flatbuffer/importSchema');
 const RoomObject = require('./roomObject');
-
 const { objects } = require('../util');
 
+const { Transport } = importSchema('RoomState');
 /**
  * @class RoomState
  * @description Represents a collection of properties and objects relating to an in-memory room.

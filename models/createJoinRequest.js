@@ -2,7 +2,9 @@
 const { Builder, ByteBuffer } = require('flatbuffers').flatbuffers;
 
 const { DeviceType, coerce } = require('../enum');
-const { Transport } = require('../flatbuffer/transport_generated').Neuralyzer;
+const importSchema = require('../flatbuffer/importSchema');
+
+const { Transport } = importSchema('Transport');
 
 /**
  * Represents a request from a client to create or join a Neuralyzer room.

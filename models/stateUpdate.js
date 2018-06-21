@@ -1,9 +1,10 @@
 
 const { Builder, ByteBuffer } = require('flatbuffers').flatbuffers;
 
-const { Transport } = require('../flatbuffer/StateUpdate_generated').Neuralyzer;
-
+const importSchema = require('../flatbuffer/importSchema');
 const RoomObject = require('./roomObject');
+
+const { Transport } = importSchema('StateUpdate');
 
 /**
  * @class StateUpdate

@@ -143,7 +143,6 @@ function handleMessage(socket, data) {
  * @param {String} req.url - URL of request
  */
 function connected(socket, { url }) {
-  console.info('A socket has connected');
   return async (dispatch, getState) => {
     // Socket has connected successfully.
     // Bind socket message handlers and send message back to client that

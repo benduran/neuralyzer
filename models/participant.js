@@ -2,8 +2,10 @@
 const uuid = require('uuid/v4');
 const { Builder, ByteBuffer } = require('flatbuffers').flatbuffers;
 
+const importSchema = require('../flatbuffer/importSchema');
 const { DeviceType, coerce } = require('../enum');
-const { Transport } = require('../flatbuffer/Participant_generated').Neuralyzer;
+
+const { Transport } = importSchema('Participant');
 
 /**
  * @class Participant

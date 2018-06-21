@@ -1,12 +1,14 @@
 
 const { Builder, ByteBuffer } = require('flatbuffers').flatbuffers;
 
+const importSchema = require('../flatbuffer/importSchema');
 const StateUpdate = require('./stateUpdate');
 const RoomObject = require('./roomObject');
 const CreateJoinRequest = require('./createJoinRequest');
 const { SocketEvents, RoomEvents } = require('../constants');
-const { Transport } = require('../flatbuffer/transport_generated').Neuralyzer;
 const { flatbuffers } = require('../config').server.sockets;
+
+const { Transport } = importSchema('Transport');
 
 /**
  * Takes a server-specific string msgType
