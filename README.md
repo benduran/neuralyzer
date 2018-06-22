@@ -1,7 +1,7 @@
+# Documentation updates are in-progress and are coming soon!
+
 # Neuralyzer
 Node.js, Websocket-based simple state synchronization server. Useful for synchronizing simple games and collaborative visualizations.
-
-### Documentation updates are in-progress and are coming soon!
 
 ## Setup and Installation
 1. Make sure you have [Nodejs](https://nodejs.org/en/), version 8 or greater installed.
