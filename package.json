@@ -2,7 +2,7 @@
   "name": "neuralyzer",
   "version": "1.1.0",
   "description": "Node.js, Websocket-based simple state synchronization server. Useful for synchronizing simple games and collaborative visualizations.",
-  "main": "main.js",
+  "main": "./server.js",
   "scripts": {
     "server:start:exp": "node main serve -c ./config/config.exp.js",
     "test:single": "node main test",
@@ -34,7 +34,6 @@
     "commander": "^2.15.1",
     "compression": "^1.7.2",
     "cookie-parser": "^1.4.3",
-    "cors": "^2.8.4",
     "deepmerge": "^2.1.1",
     "express": "^4.16.3",
     "flatbuffers": "^1.9.0",

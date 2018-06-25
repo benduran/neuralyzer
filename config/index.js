@@ -1,7 +1,18 @@
 
 const uuid = require('uuid/v4');
 
-const DEFAULT_STALE_ROOM_CLEANER_INTERVAL = 1000 * 30;
+const tickRate = !Number.isNaN(parseInt(process.env.NEURALYZER_TICK_RATE, 10))
+  ? parseInt(process.env.NEURALYZER_TICK_RATE, 10)
+  : 50; // Defaults to 20hz
+const staleRoomCleanerInterval = !Number.isNaN(parseInt(process.env.NEURALYZER_STALE_ROOM_CLEANER_INTERVAL, 10))
+  ? parseInt(process.env.NEURALYZER_STALE_ROOM_CLEANER_INTERVAL, 10)
+  : 1000 * 30;
+const heartbeatInterval = !Number.isNaN(parseInt(process.env.NEURALYZER_HEARTBEAT_INTERVAL, 10))
+  ? parseInt(process.env.NEURALYZER_HEARTBEAT_INTERVAL, 10)
+  : 5000;
+const heartbeatMissedThreshold = !Number.isNaN(parseInt(process.env.NEURALYZER_HEARTBEAT_MISSED_THRESHOLD, 10))
+  ? parseInt(process.env.NEURALYZER_HEARTBEAT_MISSED_THRESHOLD, 10)
+  : 3;
 
 module.exports = {
   server: {
@@ -9,15 +20,13 @@ module.exports = {
     port: process.env.NEURALYZER_SERVER_PORT || 8081, // If you change this here, you need to also change it in the Dockerfile!
     hostname: process.env.NEURALYZER_SERVER_HOSTNAME || '0.0.0.0',
     sockets: {
-      path: '/live',
-      heartbeatInterval: 5000,
-      heartbeatMissedThreshold: 3,
-      flatbuffers: {
-        enabled: process.env.NEURALYZER_FLAT_BUFFERS_ENABLED === 'true',
-      },
+      path: process.env.NEURALYZER_SOCKET_PATH || '/live',
+      heartbeatInterval,
+      heartbeatMissedThreshold,
+      flatbuffers: { enabled: process.env.NEURALYZER_FLAT_BUFFERS_ENABLED === 'true' },
     },
-    tickRate: !Number.isNaN(parseInt(process.env.NEURALYZER_TICK_RATE, 10)) ? parseInt(process.env.NEURALYZER_TICK_RATE, 10) : 50, // Defaults to 20hz
-    staleRoomCleanerInterval: !Number.isNaN(parseInt(process.env.NEURALYZER_STALE_ROOM_CLEANER_INTERVAL, 10)) ? parseInt(process.env.NEURALYZER_STALE_ROOM_CLEANER_INTERVAL, 10) : DEFAULT_STALE_ROOM_CLEANER_INTERVAL,
+    tickRate,
+    staleRoomCleanerInterval,
     ssl: {
       enabled: process.env.NEURALYZER_SSL_ENABLED === 'true',
       cert: process.env.NEURALYZER_SSL_CERT || '',
@@ -31,8 +40,9 @@ module.exports = {
     password: process.env.NEURALYZER_REDIS_PASSWORD || null,
   },
   logging: {
+    uncaughtExceptions: process.env.NEURALYZER_LOG_UNCAUGHT_EXCEPTIONS === 'true' || false,
     console: {
-      enabled: true, // TODO: We can make this configurable in the future, but for now, it's always on
+      enabled: process.env.NEURALYZER_CONSOLE_LOGGER_ENABLED === 'true' || false,
       level: process.env.NEURALYZER_CONSOLE_LOG_LEVEL || 'verbose',
     },
     s3: {

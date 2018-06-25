@@ -13,7 +13,8 @@ const path = require('path');
 function importSchema(schemaName) {
   if (!schemaName) throw new Error('No schemaName was provided when importing a Flatbuffer schema.');
   try {
-    return require(path.join(__dirname, 'userDefined', `${schemaName}_generated.js`)).Neuralyzer;
+    const root = process.env.NEURALYZER_USER_SCHEMA_PATH || path.join(__dirname, 'userDefined');
+    return require(path.join(root, `${schemaName}_generated.js`)).Neuralyzer;
   } catch (error) {
     // Try default schema and throw uncaught exception if it's not found
     return require(path.join(__dirname, `${schemaName}_generated.js`)).Neuralyzer;

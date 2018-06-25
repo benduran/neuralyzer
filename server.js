@@ -1,10 +1,10 @@
 
 const { promisify } = require('util');
 const fs = require('fs');
+const path = require('path');
 const { Server } = require('http');
 const { Server: HttpsServer } = require('https');
 
-const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -23,11 +23,34 @@ let app = null;
 let httpListener = null;
 let queueSizeIntervalHandler = null;
 
+/**
+ * Given a potential string path, attempts to convert it to an absolute path
+ * if it's not already absolute.
+ * @param {String} p - Path to check
+ * @returns {String} Coerced path
+ * @private
+ */
+function coercePath(p) {
+  if (p && !path.isAbsolute(p)) return path.join(process.cwd, p);
+  return p || '';
+}
+
+/**
+ * Handles uncaught errors / exceptions
+ * @param {Error} error - Error that was thrown
+ * @private
+ */
 function errorHandler(error) {
   logger.error('Unhandled error and / or Promise rejection!');
   logger.error(error);
 }
 
+/**
+ * Starts a logger that, ever 30 seconds,
+ * logs the size of the tick queue.
+ * Only used when the server is executed with NEURALYZER_NODE_ENV set to "test" or "debug."
+ * @private
+ */
 function startQueueSizeLogger() {
   if (queueSizeIntervalHandler) clearInterval(queueSizeIntervalHandler);
   queueSizeIntervalHandler = setInterval(() => {
@@ -35,6 +58,12 @@ function startQueueSizeLogger() {
   }, 1000 * 30);
 }
 
+/**
+ * Creates the Neuralyuzer Express API app, binds the endpoints,
+ * initializes Neuralyuzer's connection to Redis, starts the heartbeat ticker,
+ * and starts Neuralyzer listening for WS or WSS connections.
+ * @returns {Object} An object containing Neuralyzer's HTTP/S listener and its associated Express app { httpListener, app }.
+ */
 function setup() {
   return new Promise(async (resolve, reject) => {
     process.on('uncaughtException', errorHandler);
@@ -45,7 +74,6 @@ function setup() {
           logger.transports[t].silent = true;
         });
       }
-      process.env.APP_NAME = 'neuralyzer';
       app = express();
       if (config.server.ssl.enabled) {
         const options = {
@@ -55,7 +83,6 @@ function setup() {
         if (config.server.ssl.ca) options.ca = await readFileAsync(config.server.ssl.ca, 'utf8');
         httpListener = new HttpsServer(options, app);
       } else httpListener = Server(app);
-      app.use(cors());
       app.use(cookieParser());
       app.use(bodyParser.json()); // Only support JSON bodies. We're not a forms-based app
       app.use('/api', routes());
@@ -74,14 +101,30 @@ function setup() {
   });
 }
 
+/**
+ * Returns a copy of the Neuralyzer Redux application state.
+ * Useful for testing if changes are being applied correctly.
+ * DO NOT MUTATE DIRECTLY!
+ * @returns {Object} Neuralyzer Reduyx state
+ */
 function getState() {
   return store.getState();
 }
 
+/**
+ * Forcefully closes all connections to connected WS/S clients.
+ * @returns {Promise}
+ */
 async function closeAllClients() {
   await store.dispatch(serverActions.disconnectAll());
 }
 
+/**
+ * Kills the Neuralyzer process by stopping all listeners,
+ * terminating the heartbeat interval, and disconnecting from Redis.
+ * @param {HttpListener|HttpsListener} httpListener - Neuralyzer's HTTP/S listener that was returned from initial setup
+ * @returns {Promise}
+ */
 function kill() {
   if (httpListener) httpListener.close();
   return store.dispatch(serverActions.close()).then(() => {
@@ -90,14 +133,13 @@ function kill() {
   });
 }
 
+exports.setup = setup;
+exports.getState = getState;
+exports.kill = kill;
+exports.closeAllClients = closeAllClients;
+
 if (!module.parent) {
   ((async function () { // eslint-disable-line
     await setup();
   })());
 }
-
-
-exports.setup = setup;
-exports.getState = getState;
-exports.kill = kill;
-exports.closeAllClients = closeAllClients;

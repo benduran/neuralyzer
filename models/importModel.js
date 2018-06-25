@@ -13,7 +13,8 @@ const path = require('path');
 function importModel(modelName) {
   if (!modelName) throw new Error('No modelName was provided when importing a Neuralyzer model.');
   try {
-    return require(path.join(__dirname, 'userDefined', `${modelName}.js`));
+    const root = process.env.NEURALYZER_USER_MODELS_PATH || path.join(__dirname, 'userDefined');
+    return require(path.join(root, `${modelName}.js`));
   } catch (error) {
     // Try default schema and throw uncaught exception if it's not found
     return require(path.join(__dirname, `${modelName}.js`));
