@@ -2,8 +2,9 @@
 const { Builder, ByteBuffer } = require('flatbuffers').flatbuffers;
 
 const importSchema = require('../flatbuffer/importSchema');
-const RoomObject = require('./roomObject');
+const importModel = require('./importModel');
 
+const RoomObject = importModel('roomObject');
 const { Transport } = importSchema('StateUpdate');
 
 /**

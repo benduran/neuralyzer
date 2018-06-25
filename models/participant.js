@@ -27,6 +27,7 @@ class Participant {
     this.id = args.id || uuid();
     this.sid = args.sid || null; // Socket ID for the user's connection
   }
+
   /**
    * Converts instanceof Participant to a FlatBuffer for sending via WebSocket.
    * @returns {FlatBuffer}

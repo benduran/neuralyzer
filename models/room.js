@@ -1,9 +1,11 @@
 
 const uuid = require('uuid/v4');
 
-const Participant = require('./participant');
-const RoomState = require('./roomState');
-const StateUpdate = require('./stateUpdate');
+const importModel = require('./importModel');
+
+const Participant = importModel('participant');
+const RoomState = importModel('roomState');
+const StateUpdate = importModel('stateUpdate');
 
 /**
  * @class Room

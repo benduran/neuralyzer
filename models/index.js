@@ -1,8 +1,10 @@
 
-exports.Room = require('./room');
-exports.Participant = require('./participant');
-exports.SocketMessage = require('./socketMessage');
-exports.StateUpdate = require('./stateUpdate');
-exports.RoomObject = require('./roomObject');
-exports.RoomState = require('./roomState');
-exports.CreateJoinRequest = require('./createJoinRequest');
+const importModel = require('./importModel');
+
+exports.Room = importModel('room');
+exports.Participant = importModel('participant');
+exports.SocketMessage = importModel('socketMessage');
+exports.StateUpdate = importModel('stateUpdate');
+exports.RoomObject = importModel('roomObject');
+exports.RoomState = importModel('roomState');
+exports.CreateJoinRequest = importModel('createJoinRequest');

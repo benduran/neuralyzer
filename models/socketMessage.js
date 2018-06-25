@@ -1,14 +1,15 @@
 
 const { Builder, ByteBuffer } = require('flatbuffers').flatbuffers;
 
+const importModel = require('./importModel');
 const importSchema = require('../flatbuffer/importSchema');
-const StateUpdate = require('./stateUpdate');
-const RoomObject = require('./roomObject');
-const CreateJoinRequest = require('./createJoinRequest');
 const { SocketEvents, RoomEvents } = require('../constants');
 const { flatbuffers } = require('../config').server.sockets;
 
 const { Transport } = importSchema('Transport');
+const StateUpdate = importModel('stateUpdate');
+const RoomObject = importModel('roomObject');
+const CreateJoinRequest = importModel('createJoinRequest');
 
 /**
  * Takes a server-specific string msgType
@@ -90,6 +91,7 @@ class SocketMessage {
     this.msgType = args.msgType;
     this.data = args.data;
   }
+
   /**
    * Prepares this instance of SocketMessage to be sent out over the wire in a JSON string format.
    * If the flatbuffers.enabled flag is set to "true" in the server config, a flat buffer is returned instead.
@@ -103,6 +105,7 @@ class SocketMessage {
     if (!isPulseOrBlip && this.data && Object.keys(this.data).length) out.data = this.data;
     return JSON.stringify(out);
   }
+
   /**
    * Converts instanceof SocketMessage to a FlatBuffer for sending via WebSocket.
    * The server's version of this object and the version that is sent out over the wire
