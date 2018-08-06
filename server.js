@@ -1,13 +1,13 @@
 
 const { promisify } = require('util');
 const fs = require('fs');
-const path = require('path');
 const { Server } = require('http');
 const { Server: HttpsServer } = require('https');
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const express = require('express');
+const cors = require('cors');
 
 const { version } = require('./package.json');
 const config = require('./config');
@@ -22,18 +22,6 @@ const readFileAsync = promisify(fs.readFile);
 let app = null;
 let httpListener = null;
 let queueSizeIntervalHandler = null;
-
-/**
- * Given a potential string path, attempts to convert it to an absolute path
- * if it's not already absolute.
- * @param {String} p - Path to check
- * @returns {String} Coerced path
- * @private
- */
-function coercePath(p) {
-  if (p && !path.isAbsolute(p)) return path.join(process.cwd, p);
-  return p || '';
-}
 
 /**
  * Handles uncaught errors / exceptions
@@ -83,6 +71,7 @@ function setup() {
         if (config.server.ssl.ca) options.ca = await readFileAsync(config.server.ssl.ca, 'utf8');
         httpListener = new HttpsServer(options, app);
       } else httpListener = Server(app);
+      app.use(cors());
       app.use(cookieParser());
       app.use(bodyParser.json()); // Only support JSON bodies. We're not a forms-based app
       app.use('/api', routes());

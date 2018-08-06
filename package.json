@@ -34,6 +34,7 @@
     "commander": "^2.15.1",
     "compression": "^1.7.2",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "deepmerge": "^2.1.1",
     "express": "^4.16.3",
     "flatbuffers": "^1.9.0",
