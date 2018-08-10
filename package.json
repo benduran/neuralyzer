@@ -37,6 +37,7 @@
     "cors": "^2.8.4",
     "deepmerge": "^2.1.1",
     "express": "^4.16.3",
+    "express-useragent": "^1.0.12",
     "flatbuffers": "^1.9.0",
     "redis": "^2.8.0",
     "redux": "^4.0.0",

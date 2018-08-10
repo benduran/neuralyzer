@@ -3,6 +3,7 @@ const urlParse = require('url');
 
 const uuid = require('uuid/v4');
 const { Server: WsServer } = require('ws');
+const { parse: parseUseragent } = require('express-useragent');
 
 const logger = require('../logger');
 const config = require('../config');
@@ -61,6 +62,7 @@ function disconnectAll() {
  * @param {Boolean} connectionAlive - True if socket is still alive, false if otherwise
  */
 function heartbeat(socket, connectionAlive) {
+  logger.info(`${socket.useragent} sent heartbeat "pulse"`);
   return { type: Server.Heartbeat, socket, connectionAlive };
 }
 
@@ -140,9 +142,8 @@ function handleMessage(socket, data) {
  * Sends a ConnectionReady event back to the socket that connected.
  * @param {WebSocket} socket
  * @param {Request} req - HTTP request object
- * @param {String} req.url - URL of request
  */
-function connected(socket, { url }) {
+function connected(socket, req) {
   return async (dispatch, getState) => {
     // Socket has connected successfully.
     // Bind socket message handlers and send message back to client that
@@ -151,7 +152,7 @@ function connected(socket, { url }) {
     // If an sid was provided on the URL via the querystring,
     // we should "attempt" to reconnect the user with the same socket information
     // and automatically join them to the room they were in previously
-    const { query } = urlParse.parse(url, true); // Query should be parsed into an object here.
+    const { query } = urlParse.parse(req.url, true); // Query should be parsed into an object here.
     const pleaseReconnect = query && query.sid;
     let existingConnectionMatch = null;
     if (pleaseReconnect) {
@@ -165,6 +166,7 @@ function connected(socket, { url }) {
     socket.connectionAlive = true;
     socket.sid = pleaseReconnect ? query.sid : uuid();
     socket.heartbeatsMissed = 0;
+    socket.useragent = parseUseragent(req);
     socket.on('close', () => dispatch(disconnected(socket)));
     socket.on('message', msg => dispatch(handleMessage(socket, msg)));
     // Need to add an error handler to all sockets to catch uncaught exceptions,
