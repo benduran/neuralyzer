@@ -3,7 +3,6 @@ const urlParse = require('url');
 
 const uuid = require('uuid/v4');
 const { Server: WsServer } = require('ws');
-const { parse: parseUseragent } = require('express-useragent');
 
 const logger = require('../logger');
 const config = require('../config');
@@ -166,7 +165,7 @@ function connected(socket, req) {
     socket.connectionAlive = true;
     socket.sid = pleaseReconnect ? query.sid : uuid();
     socket.heartbeatsMissed = 0;
-    socket.useragent = parseUseragent(req);
+    socket.useragent = req.headers['user-agent'] || 'Unknown';
     socket.on('close', () => dispatch(disconnected(socket)));
     socket.on('message', msg => dispatch(handleMessage(socket, msg)));
     // Need to add an error handler to all sockets to catch uncaught exceptions,
