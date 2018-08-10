@@ -1,6 +1,6 @@
 {
   "name": "neuralyzer",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Node.js, Websocket-based simple state synchronization server. Useful for synchronizing simple games and collaborative visualizations.",
   "main": "./server.js",
   "scripts": {
