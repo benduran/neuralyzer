@@ -104,7 +104,7 @@ namespace Neuralyzer.Core
       var devType = "browser"; 
 #endif
       lastRoomJoined = roomName;
-            socket.SendArray(ServerMessageFactory.BuildMessage(roomName, userName, uid,
+            socket.SendArray(ServerMessageFactoryFB.BuildMessage(roomName, userName, uid,
                 devType));
             print("join request sent");
         }
@@ -206,16 +206,32 @@ namespace Neuralyzer.Core
                 };
                 socket.OnMessage += (sender, e) =>
                 {
-                    var bb = new ByteBuffer(e.RawData);
-                    var desMsg = ServerMessage.GetRootAsServerMessage(bb);
-                    // handle heartbeat
-                    if (desMsg.Type == msgType.SocketPulse)
+                    if (!config.UseFlatbuffers)
                     {
-                        lastPulse = Time.realtimeSinceStartup;
-                        reconnectAttempts = 0;
-                        reconnectTime = 0.1f;
-                        socket.SendArray(ServerMessageFactory.BuildMessage());
-                        return;
+                        var bb = new ByteBuffer(e.RawData);
+                        var desMsg = ServerMessage.GetRootAsServerMessage(bb);
+                        // handle heartbeat
+                        if (desMsg.Type == msgType.SocketPulse)
+                        {
+                            lastPulse = Time.realtimeSinceStartup;
+                            reconnectAttempts = 0;
+                            reconnectTime = 0.1f;
+                            socket.SendArray(ServerMessageFactoryFB.BuildMessage());
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        var desMsg =
+                            JsonUtility.FromJson<ServerMessageObj>(e.Data ?? Encoding.UTF8.GetString(e.RawData));
+                        if (desMsg.msgType == "socket:pulse")
+                        {
+                            lastPulse = Time.realtimeSinceStartup;
+                            reconnectAttempts = 0;
+                            reconnectTime = 0.1f;
+                            socket.SendString(ServerMessageFactory.BuildMessage());
+                            return;
+                        }
                     }
                     if (OnMessage != null) OnMessage.Invoke(sender, e);
                 };

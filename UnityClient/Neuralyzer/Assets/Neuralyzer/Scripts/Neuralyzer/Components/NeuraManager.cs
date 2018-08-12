@@ -160,7 +160,7 @@ namespace Neuralyzer.Components
                         }
                         Debug.Assert(!string.IsNullOrEmpty(globalState.siteDrive));
 
-                        NeuraCore.Instance.SendInitialState(ServerMessageFactory.BuildMessage(globalState));
+                        NeuraCore.Instance.SendInitialState(ServerMessageFactoryFB.BuildMessage(globalState));
                     }
                     break;
                 case msgType.RoomUserOnjoined:
@@ -660,10 +660,9 @@ namespace Neuralyzer.Components
 
             #endregion
 
-            if (diffState != null
-            ) //Serialize the updates to json and pass them to the NeuraCore to be sent to the server
+            if (diffState != null) //Serialize the updates to json and pass them to the NeuraCore to be sent to the server
             {
-                NeuraCore.Instance.SetUpdate(ServerMessageFactory.BuildMessage(diffState));
+                NeuraCore.Instance.SetUpdate(ServerMessageFactoryFB.BuildMessage(diffState));
             }
             //Find all local owned and scene objects that have changed since the last tick
             oldStateGen = new RoomStateGen(globalState);

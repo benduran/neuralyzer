@@ -5,3 +5,4 @@
 *.zip
 /.idea
 /models/userDefined
+/UnityClient/Neuralyzer/.idea

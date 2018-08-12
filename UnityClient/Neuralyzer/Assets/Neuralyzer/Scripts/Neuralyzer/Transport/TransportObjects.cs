@@ -383,26 +383,37 @@ namespace Neuralyzer.Transport
     }
 
     [Serializable]
+    public struct ServerMessageObj
+    {
+        public string msgType;
+        public string data;
+    }
+
+    [Serializable]
     public struct OnConnectedArgs
     {
         public string sid;
     }
 
+    [Serializable]
     public struct CreatedEventArgs
     {
         public string name;
     }
 
+    [Serializable]
     public struct UserLeftEventArgs
     {
         public string username;
     }
 
+    [Serializable]
     public struct UserJoinedEventArgs
     {
         public string username;
     }
 
+    [Serializable]
     public struct PropertiesChangedEventArgs
     {
         public string SiteDrive;
@@ -454,6 +465,7 @@ namespace Neuralyzer.Transport
         }
     }
 
+    [Serializable]
     public struct ErrorMessageEventArgs
     {
         public string message;
@@ -462,7 +474,7 @@ namespace Neuralyzer.Transport
     /// <summary>
     /// This class facilitates the creation of server messages and isolates much of the flat buffer logic to a single place so that it is testable
     /// </summary>
-    public static class ServerMessageFactory
+    public static class ServerMessageFactoryFB
     {
         public static byte[] BuildMessage(msgType type, string stringData)
         {
@@ -529,6 +541,58 @@ namespace Neuralyzer.Transport
             var builtMessage = ServerMessage.EndServerMessage(fbb);
             fbb.Finish(builtMessage.Value);
             return fbb.SizedByteArray();
+        }
+    }
+
+    public static class ServerMessageFactory
+    {
+        public static string BuildMessage(string type, string stringData)
+        {
+            var sm = new ServerMessageObj
+            {
+                msgType = type,
+                data = stringData
+            };
+            return JsonUtility.ToJson(sm);
+        }
+        
+//        public static string BuildMessage(RoomStateGen state)
+//        {
+//        }
+        
+        public static string BuildMessage(string roomName, string usrName, string usrId, string devType)
+        {
+            var sm = new ServerMessageObj
+            {
+                msgType = "socket:createOrJoinRoom",
+                data = JsonUtility.ToJson(new
+                {
+                    room = roomName,
+                    username = usrName,
+                    userId = usrId,
+                    deviceType = devType,
+                })
+            };
+            return JsonUtility.ToJson(sm);
+        }
+        
+        public static string BuildMessage(StateUpdateObject sup)
+        {
+            var sm = new ServerMessageObj
+            {
+                msgType = "room:state:update",
+                data = JsonUtility.ToJson(sup)
+            };
+            return JsonUtility.ToJson(sm);
+        }
+
+        public static string BuildMessage()
+        {
+            var sm = new ServerMessageObj
+            {
+                msgType = "socket:blip"
+            };
+            return JsonUtility.ToJson(sm);
         }
     }
 }

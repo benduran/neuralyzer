@@ -167,7 +167,7 @@ namespace Assets.Neuralyzer.Scripts.Neuralyzer.Tests
     private bool TestStringMessage()
     {
       var testString = "TestString";
-      var buf = ServerMessageFactory.BuildMessage(msgType.SocketCreateOrJoinRoom, testString);
+      var buf = ServerMessageFactoryFB.BuildMessage(msgType.SocketCreateOrJoinRoom, testString);
       var bb = new ByteBuffer(buf);
       var desMsg = ServerMessage.GetRootAsServerMessage(bb);
       var passed = true;
@@ -232,7 +232,7 @@ namespace Assets.Neuralyzer.Scripts.Neuralyzer.Tests
         siteDrive = sitedrive
       };
 
-      var buf = ServerMessageFactory.BuildMessage(TestSUP);
+      var buf = ServerMessageFactoryFB.BuildMessage(TestSUP);
       var bb = new ByteBuffer(buf);
       var desMsg = ServerMessage.GetRootAsServerMessage(bb);
       var passed = true;
