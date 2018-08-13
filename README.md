@@ -62,5 +62,23 @@ In simple applications that are more latency-tolerant, using the JSON strings fo
 ## FlatBuffers
 - For more information on what a FlatBuffer is, please visit the official [FlatBuffers](https://google.github.io/flatbuffers/) documentation.
 
+## Lifecycle and Events
+Neuralyzer has a pretty simple lifecycle for when a WebSocket connects, joins a room, updates state, and leaves a room / closes connection. Each step in the lifecycle is marked by a WebSocket message in the following format:
+```
+{ msgType: 'Name:Of:Event', data: <String | Object> }
+```
+The lifecycle of a Neuralyzer client is as follows:
+```
+Open Socket -> 'socket:ready' sent to client -> Client receives 'socket:pulse' -> Client sends 'socket:blip' to acknowledge heart beat for active connection
+            |
+            -> Client sends 'socket:createOrJoinRoom' (with arguments) to create or join a room -> Client receives 'socket:room:joined' with current room state -> Client receives or issues a state update 'room:state:update'
+                                                                                                                                                                |
+                                                                                                                                                                -> Client receives 'room:user:onjoined' when another participant joins
+                                                                                                                                                                |
+                                                                                                                                                                -> Client receives 'room:user:onleft' when another participant leaves
+                                                                                                                                                                |
+                                                                                                                                                                -> Client leaves the room by disconnecting or closing the room
+```
+
 ## License
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
