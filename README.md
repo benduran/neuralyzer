@@ -68,17 +68,7 @@ Neuralyzer has a pretty simple lifecycle for when a WebSocket connects, joins a 
 { msgType: 'Name:Of:Event', data: <String | Object> }
 ```
 The lifecycle of a Neuralyzer client is as follows:
-```
-Open Socket -> 'socket:ready' sent to client -> Client receives 'socket:pulse' -> Client sends 'socket:blip' to acknowledge heart beat for active connection
-            |
-            -> Client sends 'socket:createOrJoinRoom' (with arguments) to create or join a room -> Client receives 'socket:room:joined' with current room state -> Client receives or issues a state update 'room:state:update'
-                                                                                                                                                                |
-                                                                                                                                                                -> Client receives 'room:user:onjoined' when another participant joins
-                                                                                                                                                                |
-                                                                                                                                                                -> Client receives 'room:user:onleft' when another participant leaves
-                                                                                                                                                                |
-                                                                                                                                                                -> Client leaves the room by disconnecting or closing the room
-```
+![Neuralyzer Flow Diagram](./neuralyzerflow.jpg)
 
 ## License
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
