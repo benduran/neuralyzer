@@ -1,6 +1,6 @@
 {
   "name": "neuralyzer",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Node.js, Websocket-based simple state synchronization server. Useful for synchronizing simple games and collaborative visualizations.",
   "main": "./server.js",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.jpl.nasa.gov/OnSight/Neuralyzer"
+    "url": "https://github.com/benduran/neuralyzer"
   },
   "bin": {
     "neuralyzer": "./bin/neuralyzerCli.js"
