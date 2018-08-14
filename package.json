@@ -16,6 +16,9 @@
     "type": "git",
     "url": "https://github.jpl.nasa.gov/OnSight/Neuralyzer"
   },
+  "bin": {
+    "neuralyzer": "./bin/neuralyzerCli.js"
+  },
   "keywords": [
     "Socket",
     "State",

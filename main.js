@@ -7,19 +7,7 @@ const { promisify } = require('util');
 
 const program = require('commander');
 
-async function launchServer({ port, hostname, redisHost, redisPassword }) {
-  // Usually we don't do non-global require, but we don't
-  // want the server to import the config until we've mapped it.
-  if (port) process.env.NEURALYZER_SERVER_PORT = port.toString();
-  if (hostname) process.env.NEURALYZER_SERVER_HOSTNAME = hostname;
-  if (redisHost) process.env.NEURALYZER_REDIS_HOST = redisHost;
-  if (redisPassword) process.env.NEURALYZER_REDIS_PASSWORD = redisPassword;
-  const { setup: startServer } = require('./server');
-  if (process.env.NEURALYZER_SERVER_HOSTNAME) console.log(`SERVER_HOSTNAME is "${process.env.NEURALYZER_SERVER_HOSTNAME}"`);
-  if (process.env.NEURALYZER_SERVER_PORT) console.log(`SERVER_PORT is "${process.env.NEURALYZER_SERVER_PORT}"`);
-  if (process.env.NEURALYZER_REDIS_HOST) console.log(`REDIS_HOST is "${process.env.NEURALYZER_REDIS_HOST}"`);
-  await startServer();
-}
+const setupLauncherServerCommand = require('./bin/launchServer');
 
 async function cleanZips() {
   const glob = require('glob');
@@ -224,19 +212,11 @@ function mapDefaultTestOptions(command) {
 
 mapDefaultOptions(
   program
-    .command('serve')
-    .option('-p, --port <port>', '(Optional) Port override for the server')
-    .option('-h, --hostname <hostname>', '(Optional) Hostname override for the server')
-    .option('--redishost <redisHost>', '(Optional) Redis host override')
-    .option('--redispass <redisPassword>', '(Optional) Redis password override')
-    .description('Launches the Neuralyzer server.'),
-).action(options => handleArgsAndExecute(options, launchServer));
-
-mapDefaultOptions(
-  program
     .command('zip')
     .description('Zips up the project and prepares it for deployment.'),
 ).action(options => handleArgsAndExecute(options, createZipArchive));
+
+mapDefaultOptions(setupLauncherServerCommand(program));
 
 mapDefaultTestOptions(
   program
