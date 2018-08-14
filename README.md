@@ -68,7 +68,7 @@ Neuralyzer has a pretty simple lifecycle for when a WebSocket connects, joins a 
 { msgType: 'Name:Of:Event', data: <String | Object> }
 ```
 The lifecycle of a Neuralyzer client is as follows:
-![Neuralyzer Flow Diagram](./neuralyzerflow.jpg)
+![Neuralyzer Flow Diagram](https://raw.githubusercontent.com/benduran/neuralyzer/master/neuralyzerflow.jpg)
 
 ## License
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
