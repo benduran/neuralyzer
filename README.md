@@ -33,6 +33,9 @@ All of **Neuralyzer's** configuration options can be set through some form of en
 - `NEURALYZER_HEARTBEAT_MISSED_THRESHOLD` - The number of heartbeats that a client is allowed to miss before they are forceably disconnected from Neuralyzer and removed from any rooms in which they are participating. Defaults to `3`.
 - `NEURALYZER_TICK_RATE` - The duration, in milliseconds, between outbound queue executions. Essentially, how frequently (in milliseconds) the server will loop through its queue and send messages out to connected clients. Defaults to `50` (*20Hz*).
 - `NEURALYZER_SSL_ENABLED` - Whether or not Neuralyzer will create an HTTPS listener for serving secured connections. Defaults to `false`.
+- `NEURALYZER_HSTS_ENABLED` - Whether or not the server will write out the HSTS (HTTP Strict Transport Security) header for SSL connections. Defaults to `false`.
+- `NEURALYZER_HSTS_INCLUDE_SUBDOMAINS` - Whether or not to enforce HSTS for all subdomains. Defaults to `false`.
+- `NEURALYZER_HSTS_MAX_AGE` - Max time HSTS should be enforced by a client / browser. Defaults to `31536000` (in seconds).
 - `NEURALYZER_SSL_CERT` - Absolute path to the SSL Certificate to use for the HTTPS listener. Defaults to `''`.
 - `NEURALYZER_SSL_KEY` - Absolute path to the SSL Private Key to use for the HTTPS listener. Defaults to `''`.
 - `NEURALYZER_SSL_CA` - Absolute path to the SSL Certificate Authority key for the HTTPS listener. Defaults to `''`.
