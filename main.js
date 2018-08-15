@@ -36,6 +36,7 @@ function createZipArchive() {
       './config/index.js',
       './config/config.defaults.js',
       './constants/*',
+      './middleware/*',
       './enum/*',
       './logger/*',
       './models/**/*',
