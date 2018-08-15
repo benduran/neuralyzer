@@ -13,6 +13,9 @@ const heartbeatInterval = !Number.isNaN(parseInt(process.env.NEURALYZER_HEARTBEA
 const heartbeatMissedThreshold = !Number.isNaN(parseInt(process.env.NEURALYZER_HEARTBEAT_MISSED_THRESHOLD, 10))
   ? parseInt(process.env.NEURALYZER_HEARTBEAT_MISSED_THRESHOLD, 10)
   : 3;
+const hstsMaxAge = !Number.isNaN(parseInt(process.env.NEURALYZER_HSTS_MAX_AGE, 10))
+  ? parseInt(process.env.NEURALYZER_HSTS_MAX_AGE, 10)
+  : 60 * 60 * 24 * 365; // Defaults to one year of max-age HSTS security
 
 module.exports = {
   server: {
@@ -32,6 +35,9 @@ module.exports = {
       cert: process.env.NEURALYZER_SSL_CERT || '',
       key: process.env.NEURALYZER_SSL_KEY || '',
       ca: process.env.NEURALYZER_SSL_CA || '',
+      hsts: process.env.NEURALYZER_HSTS_ENABLED === 'true',
+      hstsIncludeSubdomains: process.env.NEURALYZER_HSTS_INCLUDE_SUBDOMAINS === 'true',
+      hstsMaxAge,
     },
   },
   redis: {

@@ -14,6 +14,7 @@ const config = require('./config');
 const logger = require('./logger');
 const store = require('./store');
 const routes = require('./routes');
+const middleware = require('./middleware');
 const staleRoomCleaner = require('./staleRoomCleaner');
 const { server: serverActions, roomState: roomStateActions, tick: tickActions } = require('./actions');
 
@@ -70,6 +71,7 @@ function setup() {
         };
         if (config.server.ssl.ca) options.ca = await readFileAsync(config.server.ssl.ca, 'utf8');
         httpListener = new HttpsServer(options, app);
+        if (config.server.ssl.hsts) app.use(middleware.hsts());
       } else httpListener = Server(app);
       app.use(cors());
       app.use(cookieParser());
