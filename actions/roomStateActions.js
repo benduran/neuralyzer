@@ -534,3 +534,4 @@ exports.leaveUserFromRoom = leaveUserFromRoom;
 exports.updateRoomState = updateRoomState;
 exports.synchronizeWithRedis = synchronizeWithRedis;
 exports.attemptReconnect = attemptReconnect;
+exports.closeRoom = closeRoom;

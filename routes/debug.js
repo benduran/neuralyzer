@@ -1,6 +1,5 @@
-
 const { Router } = require('express');
-
+const RoomState = require('../actions/roomStateActions');
 const store = require('../store');
 
 /**
@@ -19,9 +18,18 @@ function getServerState(req, res) {
   });
 }
 
+function forceCloseRoom(req, res) {
+  const state = store.getState();
+  const room = Object.values(state.roomState.rooms).find(r => r.id === req.params.roomId);
+  if (!room) return res.sendStatus(404);
+  store.dispatch(RoomState.closeRoom(room.id));
+  return res.sendStatus(200);
+}
+
 function debugRoutes() {
   const router = new Router();
   router.route('/server/state').get(getServerState);
+  router.route('/server/closeroom/:roomId').get(forceCloseRoom);
   return router;
 }
 
