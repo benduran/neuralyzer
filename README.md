@@ -1,4 +1,4 @@
-# Documentation updates are in-progress and are coming soon!
+# This Package is no longer maintained 
 
 # Neuralyzer
 Node.js, Websocket-based state synchronization server. Useful for synchronizing multiplayer games and collaborative visualizations. Backed by Redis for synchronizing state between multiple instances. Also uses Redis as a Pub/Sub channel for synchronizing multiple executing servers.
