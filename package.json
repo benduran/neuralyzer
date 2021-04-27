@@ -41,7 +41,7 @@
     "deepmerge": "^2.1.1",
     "express": "^4.16.3",
     "flatbuffers": "^1.9.0",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2",
