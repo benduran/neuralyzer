@@ -46,7 +46,7 @@
     "redux-thunk": "^2.3.0",
     "uuid": "^3.3.2",
     "winston": "^2.4.2",
-    "ws": "^6.0.0"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
